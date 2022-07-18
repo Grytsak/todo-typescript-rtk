@@ -1,10 +1,14 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
-import counterReducer from '../features/counter/counterSlice';
+import { tasksApi } from './services/tasks'
+import auth from '../features/auth/authSlice'
 
 export const store = configureStore({
   reducer: {
-    counter: counterReducer,
+    [tasksApi.reducerPath]: tasksApi.reducer,
+    auth
   },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(tasksApi.middleware)
 });
 
 export type AppDispatch = typeof store.dispatch;
